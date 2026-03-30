@@ -1,0 +1,28 @@
+relationship 71312137-04de-458a-a25c-503ded3c036a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Koffee_fact.transaction_time
+	toColumn: LocalDateTable_3589c653-6764-483b-92ae-b9f0367b1de9.Date
+
+relationship e72ce25a-6089-4184-bbbd-e4ec11a8b7fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.transaction_date
+	toColumn: LocalDateTable_1e337e19-7b97-400f-b541-8f5c9ebf61e9.Date
+
+relationship AutoDetected_9cc371a1-9b93-41bb-bfe7-048a34b32cc9
+	fromColumn: Koffee_fact.store_id
+	toColumn: Store_dim.store_id
+
+relationship AutoDetected_cee38ff9-5cfc-4bee-9130-5cccd4c17328
+	fromColumn: Koffee_fact.product_id
+	toColumn: Product_dim.product_id
+
+relationship cc1f3889-4991-0d58-efd8-53357084e625
+	fromColumn: Koffee_fact.transaction_date
+	toColumn: Date.transaction_date
+
+relationship 793fa6f2-c37f-d7d5-1fc2-bc32dc7fc19a
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Forecast date Table'.Date
+	toColumn: Date.transaction_date
+

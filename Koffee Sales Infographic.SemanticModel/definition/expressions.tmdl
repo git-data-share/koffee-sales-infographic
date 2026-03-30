@@ -1,0 +1,14 @@
+expression Koffee_Sales_source =
+		let
+		    Source = Excel.Workbook(File.Contents("D:\Taarika\BA-BI-Documents (Taarika)\Projects - BI\Koffee Sales Infographic\data\Koffee_Sales.xlsx"), null, true),
+		    #"Kraken_Koffee_Sales - Copy_Sheet" = Source{[Item="Kraken_Koffee_Sales - Copy",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Kraken_Koffee_Sales - Copy_Sheet", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"transaction_id", Int64.Type}, {"transaction_date", type date}, {"transaction_time", type datetime}, {"transaction_qty", Int64.Type}, {"store_id", Int64.Type}, {"store_location", type text}, {"product_id", Int64.Type}, {"unit_price", type number}, {"product_category", type text}, {"product_type", type text}, {"product_detail", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 193b0c45-efee-4632-8d22-40f9020e4967
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

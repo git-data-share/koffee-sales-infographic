@@ -1,0 +1,67 @@
+table _04_forecast
+	lineageTag: a1cdccd7-11c9-4867-9ab3-08ecec577b3f
+
+	measure 'Average Daily sales' = AVERAGEX(VALUES('Forecast date Table'[Date]),[Total Sales])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 5e60a592-6f70-46f6-a945-71d7f7f451a9
+
+	measure 'Average daily sales2' = CALCULATE([Average Daily sales],ALLSELECTED('Forecast date Table'))
+		lineageTag: 9246eef9-41ef-477e-a7a5-f980530a4e83
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average daily sales switch' =
+			
+			SWITCH(TRUE(),
+			[Total Sales] <> BLANK(), [Total Sales],
+			[Average daily sales2]
+			)
+		lineageTag: 3fab00eb-d055-4cc7-a9df-337d89dfc76f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Forecast = CALCULATE(SUMX(VALUES('Forecast date Table'[Date]), [Average daily sales switch]),FILTER(ALLSELECTED('Forecast date Table'[Date]),'Forecast date Table'[Date] <= MAX('Forecast date Table'[Date])))
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 2d580470-b5c1-4047-a787-b46223cc7f37
+
+	measure 'Forecast marker' = ```
+			SWITCH(TRUE(),
+			                MAX('Forecast date Table'[Month num]) = 12, _04_forecast[Forecast],
+			                BLANK()
+			)
+			
+			```
+		lineageTag: ac4e231b-2931-4661-80f1-2c47ff2cfc3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Forecast label' = "2023 FY forecast: " & FORMAT(_04_forecast[Forecast],"$###,##0")
+		lineageTag: 4c98c4fd-e98c-4b11-8e4e-48abb78a0110
+
+	measure 'Average daily sales (q2)' = CALCULATE([Average Daily sales],FILTER('Date','Date'[Month] = 4 || 'Date'[Month] =5 || 'Date'[Month] =6 ))
+		lineageTag: 1683fcb4-5252-4e2f-a859-5c1ca426c982
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: 9b95e7ca-de3b-4109-bebf-cac36961bbf9
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _04_forecast = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

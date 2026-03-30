@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "7368b2ce6ade379d12b5",
+  "displayName": "Rough forecast",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1a90773e0aba20ad978a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_04_forecast"
+              }
+            },
+            "Property": "Forecast"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "c136047825ab04385ae9",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "6bd467270c0be5403615",
+        "boundFilter": "1a90773e0aba20ad978a",
+        "fieldExpr": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_04_forecast"
+              }
+            },
+            "Property": "Forecast"
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode"
+}

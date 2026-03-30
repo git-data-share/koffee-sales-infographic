@@ -1,0 +1,126 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "4e23ef2750d9970e6bc0",
+  "position": {
+    "x": 694,
+    "y": 435,
+    "z": 2000,
+    "height": 285,
+    "width": 586
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Forecast date Table"
+                    }
+                  },
+                  "Property": "Month short"
+                }
+              },
+              "queryRef": "Forecast date Table.Month short",
+              "nativeQueryRef": "Month short",
+              "active": true
+            }
+          ],
+          "showAll": true
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_04_forecast"
+                    }
+                  },
+                  "Property": "Forecast"
+                }
+              },
+              "queryRef": "_04_forecast.Forecast",
+              "nativeQueryRef": "Forecast"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_04_forecast"
+                    }
+                  },
+                  "Property": "Forecast marker"
+                }
+              },
+              "queryRef": "_04_forecast.Forecast marker",
+              "nativeQueryRef": "Forecast marker"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "dynamicLabelValue": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_04_forecast"
+                    }
+                  },
+                  "Property": "Forecast label"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "highlightMatching": 1
+          }
+        },
+        {
+          "properties": {
+            "showSeries": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_04_forecast.Forecast"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

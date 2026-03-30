@@ -1,0 +1,120 @@
+table Koffee_fact
+	lineageTag: 80db3711-6508-491f-a705-837c55cb3665
+
+	column transaction_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ffec690c-98b8-461d-a872-3337c77b07df
+		summarizeBy: sum
+		sourceColumn: transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 937648b3-d13d-4c85-b514-2cee2d006547
+		summarizeBy: none
+		sourceColumn: transaction_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column transaction_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b1290bf5-5ccd-4193-8da5-755002f79837
+		summarizeBy: none
+		sourceColumn: transaction_time
+
+		variation Variation
+			isDefault
+			relationship: 71312137-04de-458a-a25c-503ded3c036a
+			defaultHierarchy: LocalDateTable_3589c653-6764-483b-92ae-b9f0367b1de9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_qty
+		dataType: int64
+		formatString: 0
+		lineageTag: 62c58f22-5650-4be5-b168-90c959e7bf74
+		summarizeBy: sum
+		sourceColumn: transaction_qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 372f2598-7e2f-42a4-82c8-3133cea5ac3c
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d9322b7-0166-450d-96da-83dfa920cd50
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: fbd72c0c-581e-4e1d-94f7-caf373e948e1
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Sales'
+		dataType: double
+		lineageTag: 79401d7f-54ca-4e75-988c-53cb3ba145ac
+		summarizeBy: sum
+		sourceColumn: Total Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dfc2beb-dd90-465c-863f-ff7db4f435c3
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time of day' =
+			IF(
+			    Koffee_fact[Hour] <12,"Morning",
+			    IF(Koffee_fact[Hour] < 18, "Afternoon",
+			    "Evening"
+			    )
+			)
+		lineageTag: 90e5172b-d466-4029-b12d-84bac6da3438
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Koffee_fact = m
+		mode: import
+		source =
+				let
+				    Source = Koffee_Sales_source,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"transaction_id", "transaction_date", "transaction_time", "transaction_qty", "store_id", "product_id", "unit_price"}),
+				    #"Inserted Multiplication" = Table.AddColumn(#"Removed Other Columns", "Total Sales", each [transaction_qty] * [unit_price], type number),
+				    #"Inserted Hour" = Table.AddColumn(#"Inserted Multiplication", "Hour", each Time.Hour([transaction_time]), Int64.Type)
+				in
+				    #"Inserted Hour"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

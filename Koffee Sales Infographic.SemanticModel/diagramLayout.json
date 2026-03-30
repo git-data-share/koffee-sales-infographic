@@ -1,0 +1,139 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 448,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 34.361639415359832,
+            "y": 306
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "0929320d-e291-4446-8d2c-906259552d49",
+          "size": {
+            "height": 291,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 428.18475118062986,
+            "y": 0
+          },
+          "nodeIndex": "Koffee_fact",
+          "nodeLineageTag": "80db3711-6508-491f-a705-837c55cb3665",
+          "size": {
+            "height": 343,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Product_dim",
+          "nodeLineageTag": "1bcfb4cc-d82b-4b49-b018-0f93e6378ff9",
+          "size": {
+            "height": 183,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 803.36163941535983,
+            "y": 52.32499263243443
+          },
+          "nodeIndex": "Store_dim",
+          "nodeLineageTag": "09f763ce-c8ab-4070-8464-80d7eb14f414",
+          "size": {
+            "height": 148,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1385.3616394153598,
+            "y": 0
+          },
+          "nodeIndex": "_01_core_measures",
+          "nodeLineageTag": "136e81a5-5b08-42b1-b41f-2056b6481a4e",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1383.3616394153598,
+            "y": 116
+          },
+          "nodeIndex": "_02_nested_measures",
+          "nodeLineageTag": "745697b7-4929-4c8a-a8fe-b7227fe09021",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1378.3616394153598,
+            "y": 236
+          },
+          "nodeIndex": "_03_format_text",
+          "nodeLineageTag": "f6b104d9-1dbb-40c1-a057-dd39b3a760b2",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1379.3616394153598,
+            "y": 356
+          },
+          "nodeIndex": "_04_forecast",
+          "nodeLineageTag": "a1cdccd7-11c9-4867-9ab3-08ecec577b3f",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 612.3616394153596,
+            "y": 441
+          },
+          "nodeIndex": "Forecast date Table",
+          "nodeLineageTag": "2030467a-a38d-42bc-8d27-73c7a2d6ffab",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
