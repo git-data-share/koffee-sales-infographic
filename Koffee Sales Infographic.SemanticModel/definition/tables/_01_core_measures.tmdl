@@ -1,0 +1,78 @@
+table _01_core_measures
+	excludeFromModelRefresh
+	lineageTag: 136e81a5-5b08-42b1-b41f-2056b6481a4e
+
+	measure 'Total Transactions' = DISTINCTCOUNT(Koffee_fact[transaction_id])
+		formatString: #,0
+		lineageTag: 8490bc9c-4aaf-47a6-99c1-1eb3998cb94a
+
+	measure 'Total Sales' = SUM(Koffee_fact[Total Sales])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 91c1fe1c-a6b2-4a9c-85fc-4c8633580514
+
+	measure 'Average Order' =
+			DIVIDE(
+			    [Total Sales],
+			    [Total Transactions]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 01c28cee-7693-441a-bafc-1bee6f87c2be
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Stores' = COUNT(Store_dim[store_id])
+		formatString: 0
+		lineageTag: 26c821d6-7e21-4c83-a320-2c7d66dc8cd8
+
+	measure 'Total Products' = COUNT(Product_dim[product_id])
+		formatString: 0
+		lineageTag: 4fe57e99-e192-497d-ab07-ede26319f4ae
+
+	measure 'Product sales rank' = RANKX(ALLSELECTED(Product_dim),[Total Sales],,,Dense)
+		formatString: 0
+		lineageTag: 14279602-4a83-46c9-ac81-0e769ff4bb45
+
+	measure 'Product Transactions rank' = RANKX(ALLSELECTED(Product_dim),[Total Transactions],,,Dense)
+		formatString: 0
+		lineageTag: 4cdc1e04-77db-4d26-a254-10feb8fded59
+
+	measure 'Top Earner' = CALCULATE(MIN(Product_dim[product_detail]),FILTER(Product_dim,[Product sales rank] = 1))
+		lineageTag: 73cadb3d-054e-4f81-9077-8ea386862952
+
+	measure 'Most Popular seller' = CALCULATE(MIN(Product_dim[product_detail]), FILTER(Product_dim, [Product Transactions rank] =1))
+		lineageTag: f14d2257-8f26-4e55-8b68-19cf996f9af7
+
+	measure 'Product Category rank' = CALCULATE(RANKX(ALL(Product_dim[product_type]),[Total Sales],,DESC,Dense),ALL(Product_dim[product_category]))
+		formatString: 0
+		lineageTag: 26f998e4-973e-4e3a-892f-372932bc13cd
+
+	measure 'Top 10 product type highlight' =
+			IF(
+			    [Product Category rank]<= 10, "#EFB251",
+			    "#00958C")
+		lineageTag: 9a22c2e2-0ae8-4291-a937-7e63fadccd23
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: 9f55bd0a-256c-478d-955a-4547883a4304
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _01_core_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

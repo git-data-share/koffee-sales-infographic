@@ -1,0 +1,70 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "11f74e7a506025bc1ae0",
+  "position": {
+    "x": 41.111111111111107,
+    "y": 90,
+    "z": 7000,
+    "height": 85.555555555555557,
+    "width": 1197.7777777777778,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Welcome to the 2023 Sales Review report for Koffee's ",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "14pt",
+                      "color": "#333333"
+                    }
+                  },
+                  {
+                    "value": "NEW FLORIDA SALES REGION",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Segoe (Bold)",
+                      "fontSize": "14pt",
+                      "color": "#00c6bb"
+                    }
+                  },
+                  {
+                    "value": ". In the visuals below, you will learn all about our brilliant team’s performance across our three flagship stores. We’ll cover insights from a range of strategic areas, pinpoint specific opportunities for improvement, and forecast the second half of 2023.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "14pt",
+                      "color": "#333333"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'sub text'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

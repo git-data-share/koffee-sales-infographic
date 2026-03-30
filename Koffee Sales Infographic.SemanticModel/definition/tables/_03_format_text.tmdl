@@ -1,0 +1,27 @@
+table _03_format_text
+	excludeFromModelRefresh
+	lineageTag: f6b104d9-1dbb-40c1-a057-dd39b3a760b2
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: 40b862b8-587b-4119-9f60-6386103029ec
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _03_format_text = m
+		mode: import
+		source =
+				let
+				    Source = _02_nested_measures
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

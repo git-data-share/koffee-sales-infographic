@@ -1,0 +1,51 @@
+table Product_dim
+	lineageTag: 1bcfb4cc-d82b-4b49-b018-0f93e6378ff9
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d96df87-9cae-417d-95bd-04c3338d8874
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category
+		dataType: string
+		lineageTag: b20d73fc-1f7d-4fa3-a5eb-4c729c6c9d05
+		summarizeBy: none
+		sourceColumn: product_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_type
+		dataType: string
+		lineageTag: 05419811-0de9-4cd3-abb8-948821e785d9
+		summarizeBy: none
+		sourceColumn: product_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_detail
+		dataType: string
+		lineageTag: d9f6bf67-7eb0-46a1-959f-6a59eed2b45b
+		summarizeBy: none
+		sourceColumn: product_detail
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product_dim = m
+		mode: import
+		source =
+				let
+				    Source = Koffee_Sales_source,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"product_id", "product_category", "product_type", "product_detail"}),
+				    #"Sorted Rows" = Table.Sort(#"Removed Other Columns",{{"product_id", Order.Ascending}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Sorted Rows")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

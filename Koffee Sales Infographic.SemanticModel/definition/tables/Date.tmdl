@@ -1,0 +1,100 @@
+table Date
+	lineageTag: 0929320d-e291-4446-8d2c-906259552d49
+
+	column transaction_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6f7aa7d6-de59-449d-9d60-3f81475a5e1e
+		summarizeBy: none
+		sourceColumn: transaction_date
+
+		variation Variation
+			isDefault
+			relationship: e72ce25a-6089-4184-bbbd-e4ec11a8b7fc
+			defaultHierarchy: LocalDateTable_1e337e19-7b97-400f-b541-8f5c9ebf61e9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: f87fd7ef-e7d0-415e-82ff-43def5fe1473
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: fb1ab9db-a6e8-4687-872f-7017aa826039
+		summarizeBy: none
+		sourceColumn: Month Name
+		sortByColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name Short'
+		dataType: string
+		lineageTag: d48f0da6-d708-44cf-ba15-8844cc9d01ff
+		summarizeBy: none
+		sourceColumn: Month Name Short
+		sortByColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: 353a4d25-a6f6-4cea-b669-97af4a1df7a9
+		summarizeBy: sum
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 8956d382-ca2a-4549-9bde-e14a5a42323b
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name Short'
+		dataType: string
+		lineageTag: 0d43edbf-c8db-47a7-b3bf-5193b36b9467
+		summarizeBy: none
+		sourceColumn: Day Name Short
+		sortByColumn: 'Day of Week'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Koffee_Sales_source,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"transaction_date"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Inserted Month" = Table.AddColumn(#"Removed Duplicates", "Month", each Date.Month([transaction_date]), Int64.Type),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month", "Month Name", each Date.MonthName([transaction_date]), type text),
+				    #"Inserted First Characters" = Table.AddColumn(#"Inserted Month Name", "First Characters", each Text.Start([Month Name], 3), type text),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted First Characters",{{"First Characters", "Month Name Short"}}),
+				    #"Inserted Day of Week" = Table.AddColumn(#"Renamed Columns", "Day of Week", each Date.DayOfWeek([transaction_date]), Int64.Type),
+				    #"Inserted Day Name" = Table.AddColumn(#"Inserted Day of Week", "Day Name", each Date.DayOfWeekName([transaction_date]), type text),
+				    #"Inserted First Characters1" = Table.AddColumn(#"Inserted Day Name", "First Characters", each Text.Start([Day Name], 3), type text),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Inserted First Characters1",{{"First Characters", "Day Name Short"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

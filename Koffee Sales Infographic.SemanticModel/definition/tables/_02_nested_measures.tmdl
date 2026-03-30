@@ -1,0 +1,42 @@
+table _02_nested_measures
+	excludeFromModelRefresh
+	lineageTag: 745697b7-4929-4c8a-a8fe-b7227fe09021
+
+	measure 'Max average order (marker)' =
+			SWITCH(
+			    TRUE(),
+			    [Average Order] = [Max average order (hour)], [Average Order],
+			    BLANK()
+			)
+		lineageTag: f44db791-6289-41d5-98e5-3a6d96cca1bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Max average order (hour)' = MAXX(ALLSELECTED(Koffee_fact[Hour]),[Average Order])
+		lineageTag: 37a73737-3651-4589-a833-f11f3ad05adc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: 740872f1-f332-4264-b159-ee934fcd585e
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _02_nested_measures = m
+		mode: import
+		source =
+				let
+				    Source = _01_core_measures
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

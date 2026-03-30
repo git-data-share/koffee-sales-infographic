@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-CA
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Koffee_Sales_source","Koffee_fact","Store_dim","Product_dim","Date","_01_core_measures","_02_nested_measures","_03_format_text","_04_forecast"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Koffee_fact
+ref table DateTableTemplate_f230ded7-6346-4dd0-87ee-fb37f8c0ef3e
+ref table LocalDateTable_3589c653-6764-483b-92ae-b9f0367b1de9
+ref table Store_dim
+ref table Product_dim
+ref table Date
+ref table LocalDateTable_1e337e19-7b97-400f-b541-8f5c9ebf61e9
+ref table _01_core_measures
+ref table _02_nested_measures
+ref table _03_format_text
+ref table _04_forecast
+ref table 'Forecast date Table'
+
+ref cultureInfo en-US
+
